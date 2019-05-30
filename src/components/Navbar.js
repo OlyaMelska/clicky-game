@@ -1,4 +1,5 @@
 import React from "react";
+import "../styles/navbar.css";
 
 class Navbar extends React.Component {
   state = {
@@ -15,20 +16,12 @@ class Navbar extends React.Component {
 
   render() {
     return (
-      <div className="card text-center">
-        <div className="card-header bg-primary text-white">Click Counter!</div>
-        <div className="card-body">
-          <p className="card-text">Click Count: {this.state.count}</p>
-          <button className="btn btn-primary" onClick={this.handleIncrement}>
-            Increment
-          </button>
-          <div>
-            <button className="btn btn-primary " onClick={this.handleDecrement}>
-              Decrement
-            </button>
-          </div>
-        </div>
-      </div>
+      <nav id="nav" className="sticky-top ">
+        <h2>Click on ART!</h2>
+        <h2 id="correctly">Click an image to begin</h2>
+        <h2 id="score">Score: </h2>
+        <h2 id="total-score">Total Score: </h2>
+      </nav>
     );
   }
 }

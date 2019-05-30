@@ -1,0 +1,15 @@
+#nav {
+    background: #6da1ae;
+    color: #20373f;
+    height: 8vh;
+    display: flex;
+    align-content: space-around;
+}
+
+h2 {
+    padding-top: 1vh;
+    font-size: 26px;
+    margin: auto;
+}
+
+#correctly, #score, #total-score {}
