@@ -1,8 +1,9 @@
 import React from "react";
+import "../styles/image.css";
 
 const Image = props => {
   return (
-    <div className="col-sm-3">
+    <div className="fixed-size">
       <img
         src={props.src}
         alt={props.alt}
