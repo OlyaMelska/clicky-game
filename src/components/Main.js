@@ -1,5 +1,9 @@
 import React from "react";
+import Navbar from "./Navbar";
+import Image from "./Image";
+import imgData from "../url/url";
 import "../styles/main.css";
+const arr = [];
 
 class Counter extends React.Component {
   state = {
@@ -10,43 +14,36 @@ class Counter extends React.Component {
     this.setState({ count: this.state.count + 1 });
   };
 
+  componentDidMount() {
+    this.ramdomizeImages();
+  }
+
   handleDecrement = () => {
     this.setState({ count: this.state.count - 1 });
+  };
+  ramdomizeImages = () => {
+    while (arr.length < imgData.length) {
+      let r = Math.floor(Math.random() * imgData.length);
+      if (arr.indexOf(r) === -1) {
+        arr.push(imgData[r]);
+      }
+    }
+    console.log("shuffled Array", arr);
+    return arr;
   };
 
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-sm-3">
-            <img
-              src="../images/1.jpg"
-              alt="Salvador Dali painting"
-              className="img-fluid"
-            />
-          </div>
-          <div className="col-sm-3">
-            <img
-              src="../images/2.jpg"
-              alt="Salvador Dali painting"
-              className="img-fluid"
-            />
-          </div>
-          <div className="col-sm-3">
-            <img
-              src="../images/3.jpg"
-              alt="Salvador Dali painting"
-              className="img-fluid"
-            />
-          </div>
-          <div className="col-sm-3">
-            <img
-              src="../images/4.jpg"
-              alt="Salvador Dali painting"
-              className="img-fluid"
-            />
-          </div>
-        </div>
+      <div>
+        <Navbar />
+        <div className="container" />
+        {imgData.map(element => (
+          <Image
+            src={element.src}
+            alt={element.alt}
+            isClicked={element.isClicked}
+          />
+        ))}
       </div>
     );
   }
