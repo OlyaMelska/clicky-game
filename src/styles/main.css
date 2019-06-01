@@ -1,9 +1,10 @@
 .flex {
+    width: 80%;
+    margin: auto;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    align-content: space-between;
-    justify-content: space-around;
+    justify-content: space-evenly;
     text-align: center;
     margin-bottom: 20px;
 }

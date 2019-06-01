@@ -8,6 +8,8 @@ class Counter extends React.Component {
   state = {
     score: 0,
     bestScore: 0,
+    guess: true,
+    text: "Click an image to begin",
     imgArr: imgData
   };
 
@@ -15,12 +17,28 @@ class Counter extends React.Component {
     this.ramdomizeImages();
   }
 
-  handleDecrement = () => {
-    this.setState({ count: this.state.count - 1 });
+  handleClickCount = () => {
+    console.log("Clicked");
+    this.setState({ score: this.state.score + 1 });
+    this.compareScores();
+    this.handleTextChange();
+    this.ramdomizeImages();
   };
+
+  compareScores = () => {
+    this.state.score > this.state.bestScore //if the current score is higher than current best score
+      ? this.setState({ bestScore: this.state.score }) //set it to the current score
+      : this.setState({ bestScore: this.state.bestScore }); //if no, keep it as it was
+  };
+
+  handleTextChange = e => {
+    !e.isclicked
+      ? this.setState({ text: "You've guessed correctly" })
+      : this.setState({ text: "Wrong!" });
+  };
+
   ramdomizeImages = () => {
     const arr = [];
-
     while (arr.length < imgData.length) {
       let r = Math.floor(Math.random() * imgData.length);
       if (arr.indexOf(r) === -1) {
@@ -28,20 +46,25 @@ class Counter extends React.Component {
       }
     }
     console.log("shuffled Array", arr);
-
     this.setState({ imgArr: arr });
   };
 
   render() {
     return (
       <div>
-        <Navbar />
+        <Navbar
+          score={this.state.score}
+          bestScore={this.state.bestScore}
+          text={this.state.text}
+        />
         <div className="flex">
           {this.state.imgArr.map(element => (
             <Image
+              // key={element.src}
               src={element.src}
               alt={element.alt}
-              isClicked={element.isClicked}
+              isclicked={element.wasClicked}
+              onClick={this.handleClickCount}
             />
           ))}
         </div>

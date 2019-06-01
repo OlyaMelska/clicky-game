@@ -7,8 +7,8 @@ const Image = props => {
       <img
         src={props.src}
         alt={props.alt}
-        className="img-fluid"
-        isClicked={props.isClicked}
+        className="img-fluid img frame"
+        isclicked={props.isclicked}
       />
     </div>
   );
