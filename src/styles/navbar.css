@@ -11,3 +11,18 @@ h2 {
     font-size: 26px;
     margin: auto;
 }
+
+@media only screen and (max-width: 600px) {
+    #nav {
+        display: block;
+        height: auto;
+        opacity: 0.9;
+    }
+    h2 {
+        text-align: center;
+        font-size: 16px;
+    }
+    #art {
+        display: none;
+    }
+}
