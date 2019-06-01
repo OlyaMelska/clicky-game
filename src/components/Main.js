@@ -17,12 +17,18 @@ class Counter extends React.Component {
     this.ramdomizeImages();
   }
 
-  handleClickCount = () => {
+  handleClickCount = e => {
     console.log("Clicked");
-    this.setState({ score: this.state.score + 1 });
+    this.handleTextChange(e);
+    this.calculateScore(e);
     this.compareScores();
-    this.handleTextChange();
     this.ramdomizeImages();
+  };
+
+  calculateScore = e => {
+    !e.isclicked
+      ? this.setState({ score: this.state.score + 1 })
+      : this.setState({ score: 0 });
   };
 
   compareScores = () => {
@@ -64,7 +70,7 @@ class Counter extends React.Component {
               src={element.src}
               alt={element.alt}
               isclicked={element.wasClicked}
-              onClick={this.handleClickCount}
+              onClick={() => this.handleClickCount(element)}
             />
           ))}
         </div>
