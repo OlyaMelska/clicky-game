@@ -8,7 +8,6 @@ class Counter extends React.Component {
   state = {
     score: 0,
     bestScore: 0,
-    guess: true,
     text: "Click an image to begin",
     imgArr: imgData
   };
@@ -17,18 +16,27 @@ class Counter extends React.Component {
     this.ramdomizeImages();
   }
 
-  handleClickCount = e => {
+  handleClick = e => {
     console.log("Clicked");
-    this.handleTextChange(e);
     this.calculateScore(e);
+    this.handleTextChange(e);
     this.compareScores();
     this.ramdomizeImages();
   };
 
   calculateScore = e => {
+    // console.log("E! ", e);
+    // console.log("E.isclicked!!! ", e.isclicked);
+    const imgArr = this.state.imgArr.map(image => {
+      if (image.src === e.src) {
+        return { ...image, isClicked: !image.isClicked };
+      }
+      return image;
+    });
+
     !e.isclicked
-      ? this.setState({ score: this.state.score + 1 })
-      : this.setState({ score: 0 });
+      ? this.setState({ score: this.state.score + 1, imgArr: imgArr })
+      : this.setState({ score: 0, imgArr: imgData });
   };
 
   compareScores = () => {
@@ -43,16 +51,33 @@ class Counter extends React.Component {
       : this.setState({ text: "Wrong!" });
   };
 
+  shuffleArray = () => {
+    const array = [...this.state.imgArr];
+    let i = array.length - 1;
+    for (; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+    console.log(array);
+    this.setState({ imgArr: array });
+  };
+
   ramdomizeImages = () => {
     const arr = [];
-    while (arr.length < imgData.length) {
-      let r = Math.floor(Math.random() * imgData.length);
-      if (arr.indexOf(r) === -1) {
-        arr.push(imgData[r]);
+    console.log("BEFORE RANDOMIZE");
+    this.state.imgArr.forEach(x => console.log(x.alt, x.isClicked));
+    while (arr.length < this.state.imgArr.length) {
+      let r = Math.floor(Math.random() * this.state.imgArr.length);
+      if (arr.indexOf(this.state.imgArr[r]) === -1) {
+        arr.push(this.state.imgArr[r]);
       }
     }
-    console.log("shuffled Array", arr);
+
     this.setState({ imgArr: arr });
+    console.log("AFTER RANDOMIZE ARR");
+    arr.forEach(x => console.log(x.alt, x.isClicked));
   };
 
   render() {
@@ -66,11 +91,11 @@ class Counter extends React.Component {
         <div className="flex">
           {this.state.imgArr.map(element => (
             <Image
-              // key={element.src}
+              key={element.src}
               src={element.src}
               alt={element.alt}
-              isclicked={element.wasClicked}
-              onClick={() => this.handleClickCount(element)}
+              isclicked={element.isClicked}
+              onClick={element => this.handleClick(element)}
             />
           ))}
         </div>

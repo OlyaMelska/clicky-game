@@ -9,6 +9,7 @@ const Image = props => {
         alt={props.alt}
         className="img-fluid img frame"
         isclicked={props.isclicked}
+        onClick={() => props.onClick(props)}
       />
     </div>
   );
