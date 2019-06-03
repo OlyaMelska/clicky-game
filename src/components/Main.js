@@ -12,16 +12,15 @@ class Counter extends React.Component {
     imgArr: imgData
   };
 
-  // componentDidMount() {
-  //   this.ramdomizeImages();
-  // }
+  componentDidMount() {
+    this.randomizeImages();
+  }
 
   handleClick = e => {
     console.log("Clicked");
     this.calculateScore(e);
     this.handleTextChange(e);
     this.compareScores();
-    this.ramdomizeImages();
   };
 
   calculateScore = e => {
@@ -31,34 +30,24 @@ class Counter extends React.Component {
       }
       return image;
     });
-    console.log("CLICKED ELEMNET ", e);
-    ImgArr.forEach(x => console.log(x.alt, x.isClicked));
 
     !e.isClicked
       ? this.setState({ score: this.state.score + 1, imgArr: ImgArr }, () => {
-          console.log("INSIDE !e.isClicked!!!!!!!");
-          this.state.imgArr.forEach(x => console.log(x.alt, x.isClicked));
+          this.randomizeImages();
         })
       : this.setState({ score: 0, imgArr: imgData });
   };
 
-  ramdomizeImages = () => {
+  randomizeImages = () => {
     const arr = [];
-    // console.log(" console logging this.state.imgArr");
-    // this.state.imgArr.forEach(x => console.log(x.alt, x.isClicked));
     while (arr.length < this.state.imgArr.length) {
       let r = Math.floor(Math.random() * this.state.imgArr.length);
       if (arr.indexOf(this.state.imgArr[r]) === -1) {
         arr.push(this.state.imgArr[r]);
       }
     }
-    // console.log("ARR");
-    // arr.forEach(x => console.log(x.alt, x.isClicked));
 
-    this.setState({ imgArr: arr }, () => {
-      // console.log("THIS.SETSTATE=>/n");
-      // this.state.imgArr.forEach(x => console.log(x.alt, x.isClicked));
-    });
+    this.setState({ imgArr: arr });
   };
 
   compareScores = () => {
