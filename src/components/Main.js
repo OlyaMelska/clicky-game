@@ -12,9 +12,9 @@ class Counter extends React.Component {
     imgArr: imgData
   };
 
-  componentDidMount() {
-    this.ramdomizeImages();
-  }
+  // componentDidMount() {
+  //   this.ramdomizeImages();
+  // }
 
   handleClick = e => {
     console.log("Clicked");
@@ -25,18 +25,40 @@ class Counter extends React.Component {
   };
 
   calculateScore = e => {
-    // console.log("E! ", e);
-    // console.log("E.isclicked!!! ", e.isclicked);
-    const imgArr = this.state.imgArr.map(image => {
+    const ImgArr = this.state.imgArr.map(image => {
       if (image.src === e.src) {
         return { ...image, isClicked: !image.isClicked };
       }
       return image;
     });
+    console.log("CLICKED ELEMNET ", e);
+    ImgArr.forEach(x => console.log(x.alt, x.isClicked));
 
-    !e.isclicked
-      ? this.setState({ score: this.state.score + 1, imgArr: imgArr })
+    !e.isClicked
+      ? this.setState({ score: this.state.score + 1, imgArr: ImgArr }, () => {
+          console.log("INSIDE !e.isClicked!!!!!!!");
+          this.state.imgArr.forEach(x => console.log(x.alt, x.isClicked));
+        })
       : this.setState({ score: 0, imgArr: imgData });
+  };
+
+  ramdomizeImages = () => {
+    const arr = [];
+    // console.log(" console logging this.state.imgArr");
+    // this.state.imgArr.forEach(x => console.log(x.alt, x.isClicked));
+    while (arr.length < this.state.imgArr.length) {
+      let r = Math.floor(Math.random() * this.state.imgArr.length);
+      if (arr.indexOf(this.state.imgArr[r]) === -1) {
+        arr.push(this.state.imgArr[r]);
+      }
+    }
+    // console.log("ARR");
+    // arr.forEach(x => console.log(x.alt, x.isClicked));
+
+    this.setState({ imgArr: arr }, () => {
+      // console.log("THIS.SETSTATE=>/n");
+      // this.state.imgArr.forEach(x => console.log(x.alt, x.isClicked));
+    });
   };
 
   compareScores = () => {
@@ -46,38 +68,9 @@ class Counter extends React.Component {
   };
 
   handleTextChange = e => {
-    !e.isclicked
+    !e.isClicked
       ? this.setState({ text: "You've guessed correctly" })
       : this.setState({ text: "Wrong!" });
-  };
-
-  shuffleArray = () => {
-    const array = [...this.state.imgArr];
-    let i = array.length - 1;
-    for (; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      const temp = array[i];
-      array[i] = array[j];
-      array[j] = temp;
-    }
-    console.log(array);
-    this.setState({ imgArr: array });
-  };
-
-  ramdomizeImages = () => {
-    const arr = [];
-    console.log("BEFORE RANDOMIZE");
-    this.state.imgArr.forEach(x => console.log(x.alt, x.isClicked));
-    while (arr.length < this.state.imgArr.length) {
-      let r = Math.floor(Math.random() * this.state.imgArr.length);
-      if (arr.indexOf(this.state.imgArr[r]) === -1) {
-        arr.push(this.state.imgArr[r]);
-      }
-    }
-
-    this.setState({ imgArr: arr });
-    console.log("AFTER RANDOMIZE ARR");
-    arr.forEach(x => console.log(x.alt, x.isClicked));
   };
 
   render() {
@@ -94,7 +87,7 @@ class Counter extends React.Component {
               key={element.src}
               src={element.src}
               alt={element.alt}
-              isclicked={element.isClicked}
+              isClicked={element.isClicked}
               onClick={element => this.handleClick(element)}
             />
           ))}
