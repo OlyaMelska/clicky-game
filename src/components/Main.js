@@ -14,13 +14,14 @@ class Counter extends React.Component {
 
   componentDidMount() {
     this.randomizeImages();
+   
   }
 
   handleClick = e => {
     console.log("Clicked");
     this.calculateScore(e);
     this.handleTextChange(e);
-    this.compareScores();
+    
   };
 
   calculateScore = e => {
@@ -34,6 +35,7 @@ class Counter extends React.Component {
     !e.isClicked
       ? this.setState({ score: this.state.score + 1, imgArr: ImgArr }, () => {
           this.randomizeImages();
+          this.compareScores();
         })
       : this.setState({ score: 0, imgArr: imgData });
   };
@@ -51,7 +53,7 @@ class Counter extends React.Component {
   };
 
   compareScores = () => {
-    this.state.score > this.state.bestScore //if the current score is higher than current best score
+    this.state.score >= this.state.bestScore //if the current score is higher than current best score
       ? this.setState({ bestScore: this.state.score }) //set it to the current score
       : this.setState({ bestScore: this.state.bestScore }); //if no, keep it as it was
   };
